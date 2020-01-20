@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: initdb-config
+data:
+  initdb.sql: |
+    CREATE DATABASE  IF NOT EXISTS `db1`;
+    USE `db1`;
+    DROP TABLE IF EXISTS `data`;
+    CREATE TABLE `data` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `Data` varchar(45) NOT NULL,
+      PRIMARY KEY (`id`),
+      UNIQUE KEY `id_UNIQUE` (`id`)
+    ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+    LOCK TABLES `data` WRITE;
+    INSERT INTO `data` VALUES (1,'First Data entry '),(2,'Second Data entry'),(3,'This can go on ... ');
+    UNLOCK TABLES;
