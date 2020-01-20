@@ -1,7 +1,7 @@
 FROM node:lts-alpine as stage1 
 
 RUN apk add --no-cache git bash
-
+RUN ls 
 ADD ./ /app
 
 WORKDIR /app
