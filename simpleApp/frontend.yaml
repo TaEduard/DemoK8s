@@ -24,7 +24,7 @@ spec:
         app: frontend
     spec:
       containers:
-        - image: taeduard/demok8s:latest
+        - image: taeduard/demok8s:frontend
           name: frontend
           env:
             - name: MYSQL_ROOT_PASSWORD

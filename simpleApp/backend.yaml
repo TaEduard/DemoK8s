@@ -24,14 +24,25 @@ spec:
         app: backend
     spec:
       containers:
-        - image: taeduard/demok8s:latest
+        - image: taeduard/demok8s:backend
           name: backend
           env:
-            - name: MYSQL_ROOT_PASSWORD
+            - name: MYSQL_HOST
+              value: 'MYSQL'
+            - name: MYSQL_PASSWORD
               valueFrom:
               secretKeyRef:
                 name: mysecret
-                key: password_root
+                key: password.txt
+            - name: MYSQL_USER
+              valueFrom:
+              secretKeyRef:
+                name: mysecret
+                key: username.txt
+            - name: PORT
+              value: "3000"
+            - name: HOSTNAME
+              value: "0.0.0.0"
           ports:
             - containerPort: 3000
               name: backend

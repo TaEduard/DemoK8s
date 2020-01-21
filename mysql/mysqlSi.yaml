@@ -7,7 +7,7 @@ spec:
     - port: 3306
   selector:
     app: mysql
-
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -26,29 +26,34 @@ spec:
       containers:
         - image: mysql:5.6
           name: mysql
-          lifecycle:
-      postStart:
-        exec:
-          command: ["/bin/sh", /var/lib/mysql/initScript.sh"]
           env:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
-              secretKeyRef:
-                name: mysecret
-                key: password_root
+                secretKeyRef:
+                  name: mysecret
+                  key: password_root.txt
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysecret
+                  key: username.txt
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysecret
+                  key: password.txt
           ports:
             - containerPort: 3306
               name: mysql
           volumeMounts:
             - name: mysql-initdb
-              mountPath: /docker-entrypoint-initdb.d          
+              mountPath: /docker-entrypoint-initdb.d
             - name: mysql-persistent-storage
-              mountPath: /var/lib/mysql  
+              mountPath: /var/lib/mysql
       volumes:
         - name: mysql-initdb
           configMap:
-            name: mysql-initdb-config
+            name: initdb-config
         - name: mysql-persistent-storage
           persistentVolumeClaim:
             claimName: mysql-pv-claim
-
